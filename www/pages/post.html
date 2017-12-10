@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Report</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="css/bootstrap.min.css"/>
+  <script src="js/lib/jquery.min.js"></script>
+  <script src="js/lib/bootstrap.min.js"></script>
+  <script src="jquery.js"></script>
+  <style>
+  </style>
+</head>
+<body>
+
+
+<!-- report an incident -->
+<div class="container text-center">
+<br></br>
+  <h3>Report an Incident</h3><br>
+
+
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+       <button align="center" id="addpic" class="btn btn-primary btn-sm">Take Picture</button>
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div><br></br>
+
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+        <img id="myImage"></img>
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div><br></br>
+
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+      <form>
+          <div class="form-group">
+              <label for="comment">Enter details of incident here:</label>
+                <textarea class="form-control" rows="8" id="comment"></textarea>
+          </div>
+      </form>
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div><br></br>
+
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+      <button id = "getPosition" class="btn btn-primary btn-sm">Location</button>
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div style="font:white;" class="col-sm-8" id="location">
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div>
+
+
+
+  <div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+       <button type="submit" align="center" id="sub" class="btn btn-primary btn-sm" onclick="submitData();">Submit</button>
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div>
+
+</div><br>
+
+
+<script src="cordova.js"></script>
+<script type="text/javascript">
+var longitude, latitude;
+document.addEventListener("deviceready", function(){
+    console.log(navigator.camera);
+});
+document.getElementById("addpic").addEventListener("click", function() {
+  navigator.camera.getPicture(onSuccess, onFail,
+  { quality: 50,
+    destinationType: Camera.DestinationType.Data_URL
+  });
+});
+function onSuccess(imageData) {
+    var image = document.getElementById('myImage');
+    image.src = "data:image/jpeg;base64," + imageData
+     getPosition();
+}
+
+function onFail(message) {
+    alert('Failed because: ' + message);
+}
+
+document.getElementById("getPosition").addEventListener("click", getPosition);
+var post;
+
+
+function getPosition() {
+   var options = {
+      enableHighAccuracy: true,
+      maximumAge: 3600000
+   }
+   var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+
+   function onSuccess(position) {
+     longitude = position.coords.longitude;
+     latitude = position.coords.latitude;
+
+    post = (position.coords.latitude +'\n' + position.coords.longitude);
+    document.getElementById("location").innerHTML=post;
+
+
+      alert('Latitude: '          + position.coords.latitude          + '\n' +
+         'Longitude: '         + position.coords.longitude         + '\n' +
+         'Altitude: '          + position.coords.altitude          + '\n' +
+         'Accuracy: '          + position.coords.accuracy          + '\n' +
+         'Altitude Accuracy: ' + position.coords.altitudeAccuracy  + '\n' +
+         'Heading: '           + position.coords.heading           + '\n' +
+         'Speed: '             + position.coords.speed             + '\n' +
+         'Timestamp: '         + position.timestamp                + '\n');
+   };
+
+   function onError(error) {
+      alert('code: '    + error.code    + '\n' + 'message: ' + error.message + '\n');
+   }
+}
+
+
+
+/*javascript code to send data to database*/
+function submitData() {
+    var pic = document.getElementById("myImage").src;
+    var comment = $('#comment').val();
+    if(latitude != null || latitude != null ){
+      var val3 =  latitude + ' , ' + longitude;
+}
+
+    $.ajax({
+        type: 'POST',
+        url: 'http://nanaadjoabentil.000webhostapp.com/processunsecure.php',
+        data: { canvas: pic, comment: comment, location: val3 },
+        success: function(response) {
+            alert(response);
+        }
+    });
+}
+</script>
+
+</body>
+</html>
