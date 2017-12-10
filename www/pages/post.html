@@ -80,7 +80,7 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-8">
-       <button type="submit" align="center" id="sub" class="btn btn-primary btn-sm" onclick="submitData();">Submit</button>
+       <button type="submit" align="center" id="sub" class="btn btn-primary btn-sm" id="submit">Submit</button>
     </div>
     <div class="col-sm-2">
     </div>
@@ -89,18 +89,22 @@
 </div><br>
 
 
-<script src="cordova.js"></script>
+<script src="../cordova.js"></script>
 <script type="text/javascript">
 var longitude, latitude;
+
 document.addEventListener("deviceready", function(){
     console.log(navigator.camera);
 });
+
 document.getElementById("addpic").addEventListener("click", function() {
   navigator.camera.getPicture(onSuccess, onFail,
   { quality: 50,
     destinationType: Camera.DestinationType.Data_URL
   });
 });
+
+
 function onSuccess(imageData) {
     var image = document.getElementById('myImage');
     image.src = "data:image/jpeg;base64," + imageData
@@ -145,12 +149,14 @@ function getPosition() {
    }
 }
 
+var submit = document.getElementById("submit");
+submit.addEventListener("click", submitData);
 
 
 /*javascript code to send data to database*/
 function submitData() {
     var pic = document.getElementById("myImage").src;
-    var comment = $('#comment').val();
+    var comment = document.getElementById('comment').value;
     if(latitude != null || latitude != null ){
       var val3 =  latitude + ' , ' + longitude;
 }
@@ -164,6 +170,7 @@ function submitData() {
         }
     });
 }
+
 </script>
 
 </body>
