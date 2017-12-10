@@ -1,3 +1,6 @@
+
+
+
 function signin()
 {
   var username = document.getElementById('username').value;
@@ -10,14 +13,14 @@ function signin()
       username : username,
       password : password
    },
-   error: function() {
-      alert('Failed');
+   error: function(response) {
+      alert('Failed' + response);
    },
-   dataType: 'json',
-   contentType: 'application/json',
-   success: function(data) {
-    alert('success');
-    window.location.assign = '../pages/post.html';
+   success: function(response) {
+    window.location.href = '../pages/post.html';
    }
 });
 }
+
+var signIn = document.getElementById("signIn");
+signIn.addEventListener("click", signin);

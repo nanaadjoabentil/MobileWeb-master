@@ -1,3 +1,5 @@
+
+
 function signup()
 {
   var fullname = document.getElementById('fullname').value;
@@ -22,18 +24,13 @@ function signup()
       email: email,
       org: org
    },
-   error: function() {
-      alert('Failed');
+   error: function(response) {
+      alert(" fail" + response);
    },
-   dataType: 'json',
-    contentType: 'application/json',
-   success: function(data) {
-     if(data == "true")
-     {
-    alert('success');
-    window.location.assign = '../pages/signin.html';
-  }
+   success: function(response) {
+      window.location.href ="signin.html"
    },
 });
 }
-}
+ var signUp = document.getElementById("signUp");
+ signUp.addEventListener("click", signup);
