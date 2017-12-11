@@ -7,7 +7,4 @@ i.e. where the incident is happening
 
 It is linked to authority organizations via an admin dashboard who can access the database, see current posts about incidents and act accordingly.
 
-Admin Login credentials:
-username: admin
-password: admin
-
+link to admin dashboard: http://nanaadjoabentil.000webhostapp.com/admindashboard.html
