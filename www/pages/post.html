@@ -7,6 +7,7 @@
        <link type="text/css" rel="stylesheet" href="../css/materialize.min.css"  media="screen,projection"/>
        <link type="text/css" rel="stylesheet" href="../css/materialize.css"  media="screen,projection"/>
        <link type="text/css" rel="stylesheet" href="../css/mycss.css"  media="screen,projection"/>
+       <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 
        <!--Let browser know website is optimized for mobile-->
        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -80,7 +81,7 @@
     <div class="col-sm-2">
     </div>
     <div class="col-sm-8">
-       <button type="submit" align="center" id="sub" class="btn btn-primary btn-sm" id="submit">Submit</button>
+       <button type="submit" align="center" class="btn btn-primary btn-sm" id="submit">Submit</button>
     </div>
     <div class="col-sm-2">
     </div>
@@ -155,16 +156,21 @@ submit.addEventListener("click", submitData);
 
 /*javascript code to send data to database*/
 function submitData() {
-    var pic = document.getElementById("myImage").src;
+    var val3 = null;
+    //var pic = document.getElementById("myImage").src;
     var comment = document.getElementById('comment').value;
-    if(latitude != null || latitude != null ){
-      var val3 =  latitude + ' , ' + longitude;
-}
+    if(latitude != null || longitude != null ){
+       val3 =  latitude + ' , ' + longitude;
+    }
 
     $.ajax({
+        url: 'http://nanaadjoabentil.000webhostapp.com/submitdata.php',
         type: 'POST',
-        url: 'http://nanaadjoabentil.000webhostapp.com/processunsecure.php',
-        data: { canvas: pic, comment: comment, location: val3 },
+        data: {
+          canvas: pic,
+          comment: comment,
+          location: val3
+        },
         success: function(response) {
             alert(response);
         }
